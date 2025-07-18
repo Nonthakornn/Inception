@@ -152,3 +152,39 @@ LABEL org.opencontainers.image.documentation=""
 LABEL org.opencontainers.image.vendor=""
 LABEL org.opencontainers.image.licenses=""
 ```
+
+### COPY vs ADD
+
+- What is COPY? 
+  - The COPY instruction copies new files or directories from `src` and adds them to the file system of the image at that path `dest`
+  - Files and directories can be copied from the build context, build stage, named context, an image
+  - Cannot extract file
+  - Preferred for all local file copies
+- What is ADD?
+  - It copies new files or directories from `src` and adds them to the filesystem of the image at the path `dest`
+  - Files and directories can be copied from the build context, remote URL, Git repository
+  - Automatically  extract a zip file
+  - Use only for tar extraction or URL fetching
+  - Docker does not extract `.zip` `.rar` `.7z`
+
+### ARG Instruction
+
+- What is ARG
+  - Defines a variable that users can pass at build-time to the builder with
+    - `docker build`
+    - using the flag can override on Dockerfile
+    - `ENV` variables always overrides ARG variables (if same variable defined in both places)
+
+### RUN and EXPOSE
+
+- What is RUN?
+  - It will execute any commands to create a new layer on top of the current image
+  - The added layer is used in the next step in the Dockerfile 
+  - Cache invalidatoin for RUN instruction: Is not validated automatically during nex build
+  - The cache for RUN instruction can be invalidate by using `--no-cache` flag
+    - `--no-cache` - Don't store the package index cache (keeps image smaller)
+- What is EXPOSE
+  - Informs Docker that the cotainer listens on the specified network ports at runtime
+  - Can you if you want to EXPOSE ond UDP or TCP
+    - `EXPOSE 80/udp`
+    - `EXPOSE 80/tcp`
