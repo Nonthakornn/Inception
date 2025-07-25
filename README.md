@@ -246,9 +246,9 @@ COPY templates/ ./templates/
   - Defines the command to run when starting a container from the image
   - Only one CMD insrtuction is allowed per Dockerfile, if there are multiple the last one will be used
   - Syntax:
-    - `CMD ["executable", "param_1", "param_2"] (exec form)
-    - `CMD ["param_1", "param_2"]
-    - `CMD command param_1  param_2 (shell form)
+    - `CMD ["executable", "param_1", "param_2"]` (exec form)
+    - `CMD ["param_1", "param_2"]`
+    - `CMD command param_1  param_2` (shell form)
   - Override CMD
     - `docker run --name <container_name> -it <image_name:tag> CMD`
 
@@ -330,7 +330,7 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s -
 - `-P` - publish **all exposed ports to random high-numbered host ports**.
   - For multi-port applications where manual mapping is complicate.
 
-## Volumes and Bind Mounts
+## Volumes
 
 - Volumes are the preferred mechanism for persisting data by Docker containers
 - Bind Mounts - dependent on the directory structure and OS of the host machine, volumes are completely managed by Docker
@@ -372,6 +372,9 @@ docker volume ls
 
 # Inspect
 docker inspect <volume_name>
+
+# Remove
+docker volume rm <volume_name>
 ```
 
 - Mounting volume with flag `--mount` - it is explicit and more verbose
@@ -399,3 +402,31 @@ docker inspect <volume_name>
     - The highlights benefit of using volume for data persistence in docker
 
 ### Mount Subdirectory
+
+- Useful for sharing specific data without exposing the entire volume content.
+- Docker will automatically create the subpath for you if it doesn't exist!
+
+`--mount type=volume,source=volume_name,target=container_path,volume-subpath=app1`
+
+## Bind Mounts
+
+- When you use a bind mount, a file or directory on the host machine is mounted into a container
+- Bind mounts have limited functionality compared to volumes
+- The file or directory does not need to exist on the Docker host 
+- What ever file is in your host (local) if you creat a new file it will be map in container
+
+### Summarize Volume and Bind Mounts
+
+| Feature      | Docker Volume  | Docker Bind Mounts |
+| -------------| ------------- | ------------------ |
+| Data Storage | Data is stored in Doker's special directories on the host| Direct mapping of a host directory or file into the container's filesystem |
+| Data Location| Stored in Docker's designated area | Any directory or file on the host machine|
+| Data Persistence| Data persists even after the container is deleted | Data is tied directly to the host file system; changes afftect both the host and container immediately|
+|Effect on Container Data| Preservers Existing Data: When mounted to a non-empty container directory, existing container data id copied into the volume on first use| Overrides Container Data: When mounted to a non-empty container directory the host's data replaces the container's existing data|
+| Use Cases| Share data between container, Persistaing data like database, Production environment| Development environment needing live code changes, Testing configurations, Accessing host file from container|
+
+
+## Resource
+
+1. [exec-vs-shell form](https://emmer.dev/blog/docker-shell-vs.-exec-form/#shell-features)
+2. 
