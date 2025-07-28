@@ -425,8 +425,40 @@ docker volume rm <volume_name>
 |Effect on Container Data| Preservers Existing Data: When mounted to a non-empty container directory, existing container data id copied into the volume on first use| Overrides Container Data: When mounted to a non-empty container directory the host's data replaces the container's existing data|
 | Use Cases| Share data between container, Persistaing data like database, Production environment| Development environment needing live code changes, Testing configurations, Accessing host file from container|
 
+## tmpfs Mount
+
+- Volumes and bind mounts let you share files between the host machine and container so that you can persist data even after the container is stopped.
+- tmps mounts are temporary file storage systems that reside in the host system's memory.
+- Useful for requiring fast ephemeral storage the does not persist after the container stop.
+
+> When the container stops the tmps mount is removed and files written there won't be persisted
+
+## Multi Container Application
+
+- By, default, containers run in isolate and don't know anything about other processes or containers on the same machine
+- If two containers on the same network, they can talk to each other.
+
+## Docker Compose
+
+- Tool for defining and running multi-container applications.
+- Compose simplifies the control of your entire application stack, making it easy to mange services, networks and volumes in a single YAML configuration file.
+
+### Best Practices (Docker Compose)
+
+```bash
+# For config changes only:
+docker compose up -d
+
+# For code/Dockerfile changes:
+docker compose up --build -d
+
+# To force recreation of everything:
+docker compose up --force-recreate -d
+
+# Clear option (clean slate):
+docker compose down
+```
 
 ## Resource
 
 1. [exec-vs-shell form](https://emmer.dev/blog/docker-shell-vs.-exec-form/#shell-features)
-2. 
