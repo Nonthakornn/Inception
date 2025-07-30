@@ -290,6 +290,26 @@ docker run test2
   - It cannot override instead it will append
   - `docker run --entrypoint`
 
+### Warning!! (Wrong approach with CMD and ENTRYPOINT)
+
+```bash
+# Wrong
+FROM debian:12
+RUN apt-get update && apt-get install -y mariadb-server
+CMD ["/setup.sh"]
+
+# Problem: Someone could accidentally do:
+docker run mariadb-container /bin/bash  # Your setup.sh never runs!
+
+# Correct
+FROM debian:12  
+RUN apt-get update && apt-get install -y mariadb-server
+ENTRYPOINT ["/setup.sh"]
+# Script always run
+docker run mariadb-container           # Runs: /setup.sh
+docker run mariadb-container --verbose # Runs: /setup.sh --verbose
+```
+
 ### HEALTHCHECK
 
 - What it HEALTHCHECK?
@@ -459,6 +479,65 @@ docker compose up --force-recreate -d
 docker compose down
 ```
 
+## Inception Time! 
+
+### Makefile Behavior
+
+1. Images (--build flag):
+	- Will rebuild if Dockerfile or build context changed
+	- Will use cache if nothing changed
+	- New image replaces old one
+
+2. Containers:
+	- Old container is stopped and removed
+	- New container created from new image
+	- Container data is lost (unless using volumes)
+
+3. Networks:
+	- Reused if same configuration
+	- Recreated if configuration changed
+
+### PID 1
+
+- PID1 is the first process that starts when a system boots up.
+- In Docker container: PID 1 = whatever you specify in ENTRYPOINT/CMD
+
+```bash
+PID 1: bash script.sh
+  └── PID 15: mysqld_safe
+       └── PID 25: mysqld
+```
+
+> exec replaces your script, so anything after exec never runs!
+
+### Standard Linux Paths (FHS - Filesystem Hierarchy Standard)
+
+```bash
+/etc/           # Configuration files
+/usr/bin/       # User binaries
+/usr/local/bin/ # Local binaries (custom scripts)
+/var/lib/       # Variable data (databases)
+/var/log/       # Log files
+/opt/           # Optional software
+```
+
+### Mariadb Setup
+
+- Reference path (if you pull mariadb):
+  - `/var/lib/mysql` : Data storage (Volume mounting for persistence)
+  - `/docker-entrypoint-initdb.d/` : Init scripts (Database setup, user creation)
+  - `/etc/mysql/config.d/` : Config files (Cutom MariaDB settings)
+  - `/usr/bin/mysql` : MySQL client (Connection to database) 
+  - `/var/log/mysql/` : Log files (Debuggin issue)
+- `CMD ["mysqld_safe]` :  starts mysqld as child (Container stays alive with database running)
+  - Automatic restart if database crashes
+  - Better logging for debugging
+  - Proper signal handling (important for docker stop)
+  - Environment setup (user, permissions, etc.)
+
 ## Resource
 
 1. [exec-vs-shell form](https://emmer.dev/blog/docker-shell-vs.-exec-form/#shell-features)
+2. [mariadb-cheat-sheet](https://gist.github.com/Jonasdero/b4c8a5e284e13aaf456f44f5dc60257e)
+3. [docker-compose](https://docs.divio.com/reference/docker-docker-compose/)
+4. [bash-mariadb](https://www.baeldung.com/linux/bash-insert-values-in-database)

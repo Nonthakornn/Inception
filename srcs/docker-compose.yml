@@ -1,0 +1,16 @@
+services:
+  debian:
+    build: ./requirements/mariadb
+    image: debian-image
+    container_name: debian-demo
+    ports:
+      - '8080:22'
+    env_file:
+      - .env
+    networks:
+      - inception-net
+    restart: always
+
+networks:
+  inception-net:
+    driver: bridge
