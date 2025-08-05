@@ -546,5 +546,5 @@ PID 1: bash script.sh
 2. [mariadb-cheat-sheet](https://gist.github.com/Jonasdero/b4c8a5e284e13aaf456f44f5dc60257e)
 3. [docker-compose](https://docs.divio.com/reference/docker-docker-compose/)
 4. [bash-mariadb](https://www.baeldung.com/linux/bash-insert-values-in-database)
-5. [mariadb-user-role][https://mariadb.com/docs/server/reference/sql-statements/account-management-sql-statements/alter-user]
-6. [setup-mariadb-root-password][https://www.ibm.com/docs/en/spectrum-lsf-rtm/10.2.0?topic=ssl-configuring-default-root-password-mysql-mariadb]
+5. [mariadb-user-role](https://mariadb.com/docs/server/reference/sql-statements/account-management-sql-statements/alter-user)
+6. [setup-mariadb-root-password](https://www.ibm.com/docs/en/spectrum-lsf-rtm/10.2.0?topic=ssl-configuring-default-root-password-mysql-mariadb)
