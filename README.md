@@ -27,7 +27,7 @@
 
 ## Docker Architecture
 
-- Docker Daemon 
+- Docker Daemon
   - Listens for Docker API requests and manges Docker objects such as images, container, networks and volumes
 - Docker Client
   - Can be present on either Docker Host or any other machine (local desktop)
@@ -43,18 +43,18 @@
 ## Docker Command (Basic)
 
 - **Pull** Docker Image from Docker Hub
-	`docker pull <image_name:version>`
+  `docker pull <image_name:version>`
 - **Run** Docker Container
-	`docker run --name <container_name> -p <host_port:container_port> -d <image_name:tag_number>
-- **Start** and **Stop** Docker Containers 
-	`docker start <app_name>`
-	`docker stop <app_name>`
+  `docker run --name <container_name> -p <host_port:container_port> -d <image_name:tag_number>
+- **Start** and **Stop** Docker Containers
+  `docker start <app_name>`
+  `docker stop <app_name>`
 - **Remove** Docker Containers
-	`docker rm <app_name>`
-	`docker rm -f $(docker ps -aq)`
-- **Remove** Docker Images 
-	`docker rmi <image_name>`
-	`docker rmi $(docker images -q)`
+  `docker rm <app_name>`
+  `docker rm -f $(docker ps -aq)`
+- **Remove** Docker Images
+  `docker rmi <image_name>`
+  `docker rmi $(docker images -q)`
 - **Prune**
 
 ```bash
@@ -121,6 +121,7 @@ docker run --name myapp1 -p 8080:80 -d <image_name:tag>
 # List the port we are using in our laptop
 sudo lsof -i -P -n | grep LISTEN
 ```
+
 ### Push Docker Image to Docker Hub
 
 ```bash
@@ -144,7 +145,7 @@ docker push DOCKER_USERNAME/<image_name:tag>
 
 ```Dockerfile
 # Custom Labels
-LABEL maintainer="Nonthakorn Non"  
+LABEL maintainer="Nonthakorn Non"
 LABEL version="1.0"
 LABEL description="A simple Nginx Application"
 
@@ -153,7 +154,7 @@ LABEL org.opencontainers.image.authors=""
 LABEL org.opencontainers.image.title=""
 LABEL org.opencontainers.image.description=""
 LABEL org.opencontainers.image.version=""
-LABEL org.opencontainers.image.revision="" 
+LABEL org.opencontainers.image.revision=""
 LABEL org.opencontainers.image.created=""
 LABEL org.opencontainers.image.url=""
 LABEL org.opencontainers.image.source=""
@@ -164,7 +165,7 @@ LABEL org.opencontainers.image.licenses=""
 
 ### COPY vs ADD
 
-- What is COPY? 
+- What is COPY?
   - The COPY instruction copies new files or directories from `src` and adds them to the file system of the image at that path `dest`
   - Files and directories can be copied from the build context, build stage, named context, an image
   - Cannot extract file
@@ -172,11 +173,11 @@ LABEL org.opencontainers.image.licenses=""
 - What is ADD?
   - It copies new files or directories from `src` and adds them to the filesystem of the image at the path `dest`
   - Files and directories can be copied from the build context, remote URL, Git repository
-  - Automatically  extract a zip file
+  - Automatically extract a zip file
   - Use only for tar extraction or URL fetching
   - Docker does not extract `.zip` `.rar` `.7z`
 
-### ARG 
+### ARG
 
 - What is ARG
   - Defines a variable that users can pass at build-time to the builder with
@@ -191,7 +192,7 @@ LABEL org.opencontainers.image.licenses=""
 
 - What is RUN?
   - It will execute any commands to create a new layer on top of the current image
-  - The added layer is used in the next step in the Dockerfile 
+  - The added layer is used in the next step in the Dockerfile
   - Cache invalidatoin for RUN instruction: Is not validated automatically during nex build
   - The cache for RUN instruction can be invalidate by using `--no-cache` flag
     - `--no-cache` - Don't store the package index cache (keeps image smaller)
@@ -302,7 +303,7 @@ CMD ["/setup.sh"]
 docker run mariadb-container /bin/bash  # Your setup.sh never runs!
 
 # Correct
-FROM debian:12  
+FROM debian:12
 RUN apt-get update && apt-get install -y mariadb-server
 ENTRYPOINT ["/setup.sh"]
 # Script always run
@@ -314,7 +315,7 @@ docker run mariadb-container --verbose # Runs: /setup.sh --verbose
 
 - What it HEALTHCHECK?
   - It tells Docker how to test a container to check that it's still working
-  - Detected cases such as:	
+  - Detected cases such as:
     - Web Server stuck in a loop, unable to handle new connection even if it still running
   - Health Status in Docker
     - Starting: Initially during the start
@@ -330,23 +331,23 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s -
 ```
 
 - Options:
-	`--interval=` (default: 30s): Time between running the check.
-	`--timeout=` (default: 30s): Time the check is allowed to run before it is considered to have failed.
-	`--start-period=` (default: 0s): Initialization time before starting health checks.
-	`--retries=` (default: 3)`: Number of consecutive failures needed to consider the container unhealthy.
+  `--interval=` (default: 30s): Time between running the check.
+  `--timeout=` (default: 30s): Time the check is allowed to run before it is considered to have failed.
+  `--start-period=` (default: 0s): Initialization time before starting health checks.
+  `--retries=` (default: 3)`: Number of consecutive failures needed to consider the container unhealthy.
 
 ### USER
 
 - Sets the default user (UID) and group (GID) for the rest of the stage.
--  Applies to RUN, ENTRYPOINT, and CMD commands.
+- Applies to RUN, ENTRYPOINT, and CMD commands.
 - Running container as a non-root-user is more secure.
 
 > If a group is set, only that group applies; other group are ignored
 
 ### Ports
 
-- `-p` - <host_port:container_port> 
-	- Alloew direct accrss to container services via designated host ports.
+- `-p` - <host_port:container_port>
+  - Alloew direct accrss to container services via designated host ports.
 - `-P` - publish **all exposed ports to random high-numbered host ports**.
   - For multi-port applications where manual mapping is complicate.
 
@@ -361,6 +362,7 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s -
 > Container เป็น temporary - เมื่อหยุดหรือลบ container แล้ว ข้อมูลข้างในจะหายไป Volume ช่วยเก็บข้อมูลไว้ใน host machine ทำให้ข้อมูลไม่หายแม้ container จะถูกลบ
 
 ### Volume (ดีกว่าสำหรับ data persistence)
+
 - จัดการโดย Docker อย่างสมบูรณ์
 - ข้อมูลเก็บในพื้นที่ที่ Docker ควบคุม (/var/lib/docker/volumes/)
 - ปลอดภัยกว่า - แยกออกจากโครงสร้างไฟล์ของ host
@@ -369,6 +371,7 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s -
 - มี Docker commands สำหรับจัดการ (docker volume ls, docker volume rm)
 
 ### Bind Mounts (มีข้อจำกัดในเรื่อง persistence)
+
 - ขึ้นอยู่กับโครงสร้างไฟล์ของ host
 - หากย้าย host หรือเปลี่ยน path ข้อมูลอาจหาไม่เจอ
 - ความปลอดภัยน้อยกว่า - แอป container เข้าถึงไฟล์ host ได้
@@ -432,18 +435,18 @@ docker volume rm <volume_name>
 
 - When you use a bind mount, a file or directory on the host machine is mounted into a container
 - Bind mounts have limited functionality compared to volumes
-- The file or directory does not need to exist on the Docker host 
+- The file or directory does not need to exist on the Docker host
 - What ever file is in your host (local) if you creat a new file it will be map in container
 
 ### Summarize Volume and Bind Mounts
 
-| Feature      | Docker Volume  | Docker Bind Mounts |
-| -------------| ------------- | ------------------ |
-| Data Storage | Data is stored in Doker's special directories on the host| Direct mapping of a host directory or file into the container's filesystem |
-| Data Location| Stored in Docker's designated area | Any directory or file on the host machine|
-| Data Persistence| Data persists even after the container is deleted | Data is tied directly to the host file system; changes afftect both the host and container immediately|
-|Effect on Container Data| Preservers Existing Data: When mounted to a non-empty container directory, existing container data id copied into the volume on first use| Overrides Container Data: When mounted to a non-empty container directory the host's data replaces the container's existing data|
-| Use Cases| Share data between container, Persistaing data like database, Production environment| Development environment needing live code changes, Testing configurations, Accessing host file from container|
+| Feature                  | Docker Volume                                                                                                                             | Docker Bind Mounts                                                                                                               |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Data Storage             | Data is stored in Doker's special directories on the host                                                                                 | Direct mapping of a host directory or file into the container's filesystem                                                       |
+| Data Location            | Stored in Docker's designated area                                                                                                        | Any directory or file on the host machine                                                                                        |
+| Data Persistence         | Data persists even after the container is deleted                                                                                         | Data is tied directly to the host file system; changes afftect both the host and container immediately                           |
+| Effect on Container Data | Preservers Existing Data: When mounted to a non-empty container directory, existing container data id copied into the volume on first use | Overrides Container Data: When mounted to a non-empty container directory the host's data replaces the container's existing data |
+| Use Cases                | Share data between container, Persistaing data like database, Production environment                                                      | Development environment needing live code changes, Testing configurations, Accessing host file from container                    |
 
 ## tmpfs Mount
 
@@ -479,23 +482,25 @@ docker compose up --force-recreate -d
 docker compose down
 ```
 
-## Inception Time! 
+## Inception Time!
 
 ### Makefile Behavior
 
 1. Images (--build flag):
-	- Will rebuild if Dockerfile or build context changed
-	- Will use cache if nothing changed
-	- New image replaces old one
+
+   - Will rebuild if Dockerfile or build context changed
+   - Will use cache if nothing changed
+   - New image replaces old one
 
 2. Containers:
-	- Old container is stopped and removed
-	- New container created from new image
-	- Container data is lost (unless using volumes)
+
+   - Old container is stopped and removed
+   - New container created from new image
+   - Container data is lost (unless using volumes)
 
 3. Networks:
-	- Reused if same configuration
-	- Recreated if configuration changed
+   - Reused if same configuration
+   - Recreated if configuration changed
 
 ### PID 1
 
@@ -527,9 +532,9 @@ PID 1: bash script.sh
   - `/var/lib/mysql` : Data storage (Volume mounting for persistence)
   - `/docker-entrypoint-initdb.d/` : Init scripts (Database setup, user creation)
   - `/etc/mysql/config.d/` : Config files (Cutom MariaDB settings)
-  - `/usr/bin/mysql` : MySQL client (Connection to database) 
+  - `/usr/bin/mysql` : MySQL client (Connection to database)
   - `/var/log/mysql/` : Log files (Debuggin issue)
-- `CMD ["mysqld_safe]` :  starts mysqld as child (Container stays alive with database running)
+- `CMD ["mysqld_safe]` : starts mysqld as child (Container stays alive with database running)
   - Automatic restart if database crashes
   - Better logging for debugging
   - Proper signal handling (important for docker stop)
@@ -541,3 +546,5 @@ PID 1: bash script.sh
 2. [mariadb-cheat-sheet](https://gist.github.com/Jonasdero/b4c8a5e284e13aaf456f44f5dc60257e)
 3. [docker-compose](https://docs.divio.com/reference/docker-docker-compose/)
 4. [bash-mariadb](https://www.baeldung.com/linux/bash-insert-values-in-database)
+5. [mariadb-user-role][https://mariadb.com/docs/server/reference/sql-statements/account-management-sql-statements/alter-user]
+6. [setup-mariadb-root-password][https://www.ibm.com/docs/en/spectrum-lsf-rtm/10.2.0?topic=ssl-configuring-default-root-password-mysql-mariadb]

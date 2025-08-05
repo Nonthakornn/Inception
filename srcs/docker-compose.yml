@@ -3,8 +3,10 @@ services:
     build: ./requirements/mariadb
     image: debian-image
     container_name: debian-demo
+    volumes:
+      - mariadb:/var/lib/mysql
     ports:
-      - '8080:22'
+      - "3306:3306"
     env_file:
       - .env
     networks:
@@ -14,3 +16,10 @@ services:
 networks:
   inception-net:
     driver: bridge
+
+volumes:
+  mariadb:
+    driver_opts:
+      type: "none"
+      o: bind
+      device: "/Users/nonthakornchencharatmatha/Dev/42bangkok/inception/data/mariadb"
