@@ -540,6 +540,18 @@ PID 1: bash script.sh
   - Proper signal handling (important for docker stop)
   - Environment setup (user, permissions, etc.)
 
+## Nginx
+
+### Layer 4 and Layer 7
+
+- Nginx can operate in layer 4 (http) or layer 4 (tcp)
+- Layer 4 proxying is useful when Nginx doesn't understand the protocol (ex MySQL database protocol)
+- Layer 7 proxying is useful when Nginx want to share backend connetions and cache results
+
+### Default Config Path
+
+- `/etc/nginx/nginx.conf`
+
 ## Resource
 
 1. [exec-vs-shell form](https://emmer.dev/blog/docker-shell-vs.-exec-form/#shell-features)
