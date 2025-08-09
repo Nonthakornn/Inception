@@ -574,10 +574,10 @@ openssl req -x509 -nodes -newkey rsa:2048 -keyout nginx-selfsigned.key -out ngin
 
 ## Resource
 
-1. [exec-vs-shell form](https://emmer.dev/blog/docker-shell-vs.-exec-form/#shell-features)
-2. [mariadb-cheat-sheet](https://gist.github.com/Jonasdero/b4c8a5e284e13aaf456f44f5dc60257e)
-3. [docker-compose](https://docs.divio.com/reference/docker-docker-compose/)
-4. [bash-mariadb](https://www.baeldung.com/linux/bash-insert-values-in-database)
-5. [mariadb-user-role](https://mariadb.com/docs/server/reference/sql-statements/account-management-sql-statements/alter-user)
-6. [setup-mariadb-root-password](https://www.ibm.com/docs/en/spectrum-lsf-rtm/10.2.0?topic=ssl-configuring-default-root-password-mysql-mariadb)
-7. [setup-https](https://www.youtube.com/watch?v=q8OleYuqntY&t=231s&ab_channel=TechWorldwithNana)
+- [Exec-vs-Shell form](https://emmer.dev/blog/docker-shell-vs.-exec-form/#shell-features)
+- [Mariadb-cheat-sheet](https://gist.github.com/Jonasdero/b4c8a5e284e13aaf456f44f5dc60257e)
+- [Docker-compose](https://docs.divio.com/reference/docker-docker-compose/)
+- [Bash-mariadb](https://www.baeldung.com/linux/bash-insert-values-in-database)
+- [Mariadb-user-role](https://mariadb.com/docs/server/reference/sql-statements/account-management-sql-statements/alter-user)
+- [Setup-mariadb-root-password](https://www.ibm.com/docs/en/spectrum-lsf-rtm/10.2.0?topic=ssl-configuring-default-root-password-mysql-mariadb)
+- [Setup-https](https://www.youtube.com/watch?v=q8OleYuqntY&t=231s&ab_channel=TechWorldwithNana)
