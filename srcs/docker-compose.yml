@@ -1,6 +1,7 @@
 services:
   debian:
     build: ./requirements/mariadb
+    hostname: mariadb
     image: debian-image
     container_name: debian-demo
     volumes:
@@ -12,6 +13,16 @@ services:
     networks:
       - inception-net
     restart: always
+  nginx:
+    build: ./requirements/nginx
+    hostname: nginx
+    image: nginx
+    container_name: nginx
+    networks:
+      - inception-net
+    ports:
+      - "80:80"
+      - "443:443"
 
 networks:
   inception-net:
