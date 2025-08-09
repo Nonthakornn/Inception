@@ -550,7 +550,27 @@ PID 1: bash script.sh
 
 ### Default Config Path
 
-- `/etc/nginx/nginx.conf`
+- conf: `/etc/nginx/nginx.conf`
+- Default HTML: `/var/www/html`
+- Custom HTML: `/usr/share/nginx/html/`
+
+### Configurations
+
+- `least_conn` - Forwarde the request to the least number of active connection;
+- If you change `server_name _; to server_name other_name;` the server block will only respond to requests where the Host header is exactly test. Requests with other Host headers, such as example.com or localhost, would not be handled by this server block.
+
+### HTTPS
+
+```bash
+# -x509 - Tells OpenSSL to output a certificate in this standard certificate format
+# -nodes - Not to encrypt the private key with a passphrase
+
+openssl req -x509 -nodes -newkey rsa:2048 -keyout nginx-selfsigned.key -out nginx-selfsigned.crt -subj "/C=TH/ST=BK/L=TH/O=42, Inc./OU=DevOps/CN=nchencha.42.fr"
+```
+
+### CMD
+
+`nginx -g daemon off;` - Telling Nginx: "Do not go into the background. Stay here and run as the main process.
 
 ## Resource
 
@@ -560,3 +580,4 @@ PID 1: bash script.sh
 4. [bash-mariadb](https://www.baeldung.com/linux/bash-insert-values-in-database)
 5. [mariadb-user-role](https://mariadb.com/docs/server/reference/sql-statements/account-management-sql-statements/alter-user)
 6. [setup-mariadb-root-password](https://www.ibm.com/docs/en/spectrum-lsf-rtm/10.2.0?topic=ssl-configuring-default-root-password-mysql-mariadb)
+7. [setup-https](https://www.youtube.com/watch?v=q8OleYuqntY&t=231s&ab_channel=TechWorldwithNana)

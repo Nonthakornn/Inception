@@ -1,9 +1,16 @@
-FROM node:latest
+FROM debian:bullseye
 
-WORKDIR /home/nchencha/app
+RUN apt-get update -y && \
+	apt-get install nginx openssl -y && \
+	rm -rf /var/lib/apt/lists/*
 
-COPY ./app .
+RUN mkdir -p /usr/certs
 
-RUN npm i
+RUN openssl req -x509 -nodes -newkey rsa:2048 \
+    -keyout /usr/certs/nginx-selfsigned.key \
+    -out /usr/certs/nginx-selfsigned.crt \
+    -subj "/C=TH/ST=BK/L=TH/O=42, Inc./OU=DevOps/CN=nchencha.42.fr"
 
-CMD ["node", "index.js"]
+COPY conf/nginx.conf /etc/nginx/nginx.conf
+
+CMD ["nginx","-g" ,"daemon off;"]
