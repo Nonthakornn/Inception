@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 ARG SETUP_MARIADB_DIR=/usr/local/bin
 
