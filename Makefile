@@ -1,6 +1,6 @@
 #VOLUME_DIR = /home/nchencha/data
 
-VOLUME_DIR = /Users/nonthakornchencharatmatha/Dev/42bangkok/inception/data
+VOLUME_DIR = /home/nchencha/Documents/onsite/inception/data
 DOCKER_COMPOSE_FILE = ./srcs/docker-compose.yml
 
 all: up

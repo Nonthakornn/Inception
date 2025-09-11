@@ -21,8 +21,8 @@ services:
     networks:
       - inception-net
     ports:
-      - "80:80"
-      - "443:443"
+      - "9000:9000"
+      - "8000:8000"
 
 networks:
   inception-net:
@@ -33,4 +33,4 @@ volumes:
     driver_opts:
       type: "none"
       o: bind
-      device: "/Users/nonthakornchencharatmatha/Dev/42bangkok/inception/data/mariadb"
+      device: "/home/nchencha/Documents/onsite/inception/data"
