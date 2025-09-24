@@ -1,9 +1,9 @@
 services:
-  debian:
+  db:
     build: ./requirements/mariadb
     hostname: mariadb
     image: debian-image
-    container_name: debian-demo
+    container_name: debian-mariadb
     volumes:
       - mariadb:/var/lib/mysql
     ports:
@@ -23,6 +23,20 @@ services:
     ports:
       - "9000:9000"
       - "8000:8000"
+  wordpress:
+    build: ./requirements/wordpress
+    hostname: debian-wordpress
+    image: wordpress
+    container_name: debian-wordpress
+    # depends_on:
+    #   - db
+    networks:
+      - inception-net
+    volumes:
+      - wordpress:/var/lib/mysql
+    ports:
+      - "7000:7000"
+    restart: always
 
 networks:
   inception-net:
@@ -30,6 +44,11 @@ networks:
 
 volumes:
   mariadb:
+    driver_opts:
+      type: "none"
+      o: bind
+      device: "/home/nchencha/Documents/onsite/inception/data"
+  wordpress:
     driver_opts:
       type: "none"
       o: bind

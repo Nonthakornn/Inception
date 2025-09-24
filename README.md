@@ -515,6 +515,8 @@ PID 1: bash script.sh
 
 > exec replaces your script, so anything after exec never runs!
 
+> A daemon is a background process on Unix/Linux that runs continuously and provides a service.
+
 ### Standard Linux Paths (FHS - Filesystem Hierarchy Standard)
 
 ```bash
@@ -567,6 +569,29 @@ PID 1: bash script.sh
 
 openssl req -x509 -nodes -newkey rsa:2048 -keyout nginx-selfsigned.key -out nginx-selfsigned.crt -subj "/C=TH/ST=BK/L=TH/O=42, Inc./OU=DevOps/CN=nchencha.42.fr"
 ```
+
+## WordPress
+
+## Dependencies
+
+- `curl`
+- `unzip`
+- `php8.2`
+- `php-fpm`
+- `php-mysql`
+- `vim`
+
+> Use php-fpm to run a services on background dont use php-cli
+
+## Setup
+
+1. Database name
+2. Database username
+3. Database password
+4. Database host
+5. Table prefix (If we want to run more than one Wordpress in a single database)
+
+## Php-fpm
 
 ### CMD
 

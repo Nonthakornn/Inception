@@ -7,6 +7,7 @@ all: up
 
 up:
 	mkdir -p ${VOLUME_DIR}/mariadb
+	mkdir -p ${VOLUME_DIR}/wordpress
 	docker compose -f ${DOCKER_COMPOSE_FILE} up --build -d
 
 nc:
